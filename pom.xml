@@ -16,6 +16,12 @@
 	<description>Deform HDF5 sources</description>
 	<properties>
 		<scijava.jvm.version>1.8</scijava.jvm.version>
+
+		<!-- Temporary: remove the next three properties once janelia-jhdf5 is released. -->
+		<janelia-jhdf5.version>22.03.01-SNAPSHOT</janelia-jhdf5.version>
+		<!-- pom-scijava manages older bytedeco versions; match what janelia-jhdf5 is built against. -->
+		<javacpp.version>1.5.15-SNAPSHOT</javacpp.version>
+		<hdf5.version>2.2.0-${javacpp.version}</hdf5.version>
 	</properties>
 
 	<profiles>
@@ -34,6 +40,13 @@
 		<dependency>
 			<groupId>sc.fiji</groupId>
 			<artifactId>bigdataviewer-core</artifactId>
+			<exclusions>
+				<!-- janelia-jhdf5 replaces cisd:jhdf5 (same packages); avoid duplicate classes. -->
+				<exclusion>
+					<groupId>cisd</groupId>
+					<artifactId>jhdf5</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>sc.fiji</groupId>
@@ -44,8 +57,10 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>cisd</groupId>
-			<artifactId>jhdf5</artifactId>
+			<groupId>org.scijava</groupId>
+			<artifactId>janelia-jhdf5</artifactId>
+			<!-- Temporary explicit version: use the released/managed version once janelia-jhdf5 is released. -->
+			<version>${janelia-jhdf5.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.zeromq</groupId>
@@ -76,6 +91,13 @@
 			<groupId>sc.fiji</groupId>
 			<artifactId>bigcat</artifactId>
 			<version>0.0.3-beta-1</version>
+			<exclusions>
+				<!-- janelia-jhdf5 replaces cisd:jhdf5 (same packages); avoid duplicate classes. -->
+				<exclusion>
+					<groupId>cisd</groupId>
+					<artifactId>jhdf5</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>sc.fiji</groupId>
@@ -121,6 +143,13 @@
 			<groupId>org.janelia.saalfeldlab</groupId>
 			<artifactId>n5-hdf5</artifactId>
 			<version>1.0.2</version>
+			<exclusions>
+				<!-- janelia-jhdf5 replaces cisd:jhdf5 (same packages); avoid duplicate classes. -->
+				<exclusion>
+					<groupId>cisd</groupId>
+					<artifactId>jhdf5</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -157,6 +186,14 @@
 		<repository>
 			<id>imagej.public</id>
 			<url>https://maven.imagej.net/content/groups/public</url>
+		</repository>
+		<!-- Temporary: org.bytedeco snapshots (javacpp, hdf5) needed by janelia-jhdf5 until they are
+		     released. Remove once janelia-jhdf5 is released. -->
+		<repository>
+			<id>central-portal-snapshots</id>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
+			<releases><enabled>false</enabled></releases>
+			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
 	</repositories>
 

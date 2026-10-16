@@ -442,7 +442,7 @@ public class Deform {
 			return defaultResolution;
 		}
 
-		final double[] data = reader.getDoubleArrayAttribute(dataset, "resolution");
+		final double[] data = reader.float64().getArrayAttr(dataset, "resolution");
 		final double[] resolution = { data[2], data[1], data[0] };
 
 		System.out.println("Using resolution of (" + resolution[0] + ", " +
